@@ -1,0 +1,33 @@
+# config context path to "/" by setting an empty string
+server:
+  contextPath:
+  port: 8080
+
+# JACKSON
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+    registration:
+      path: auth/new
+
+logging:
+  level:
+    org.springframework:
+      security: DEBUG
+
+spring.data.mongodb:
+  database: reactive
+  host: localhost
+  port: 27017
+  username: reactive
+  password: reactive
