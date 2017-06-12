@@ -13,6 +13,7 @@ jwt:
   header: Authorization
   secret: mySecret
   expiration: 604800
+  rememberme.key: juliaBeautyStudioRemKey
   route:
     authentication:
       path: auth

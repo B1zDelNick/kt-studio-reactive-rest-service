@@ -7,11 +7,10 @@ import java.util.*
 
 
 class JwtUser(
-        val id: Long?,
-        private val username: String,
+        val id: String?,
+        private val email: String,
         val firstname: String,
         val lastname: String,
-        val email: String,
         private val password: String,
         private val authorities: Collection<GrantedAuthority>,
         val enabled: Boolean,
