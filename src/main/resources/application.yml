@@ -20,10 +20,10 @@ jwt:
     registration:
       path: auth/new
 
-logging:
-  level:
-    org.springframework:
-      security: DEBUG
+#logging:
+#  level:
+#    org.springframework:
+#      security: DEBUG
 
 spring.data.mongodb:
   database: reactive
