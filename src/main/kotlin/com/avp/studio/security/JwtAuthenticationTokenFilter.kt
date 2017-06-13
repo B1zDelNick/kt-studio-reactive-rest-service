@@ -28,10 +28,14 @@ class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
-        val authToken = request.getHeader(this.tokenHeader)
+
+        val authToken = request.getHeader(tokenHeader)
 
         // authToken.startsWith("Bearer ")
         // String authToken = header.substring(7);
+
+        println("$tokenHeader: $authToken")
+
         val username = jwtTokenUtil.getUsernameFromToken(authToken)
 
         logger.info("checking authentication for user: $username")

@@ -18,7 +18,7 @@ class JwtUser(
 ) : UserDetails {
 
     override fun getUsername(): String {
-        return username
+        return email
     }
 
     @JsonIgnore

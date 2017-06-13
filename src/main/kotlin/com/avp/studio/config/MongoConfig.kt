@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct
 
 @Configuration
 @EnableMongoRepositories(*arrayOf("com.avp.studio.security.repository"))
-class MongoConfig : AbstractMongoConfiguration() {
+class MongoConfig /*: AbstractMongoConfiguration() {
 
     @Value("\${spring.data.mongodb.database:reactive}")
     private lateinit var DB_NAME: String
@@ -31,4 +31,4 @@ class MongoConfig : AbstractMongoConfiguration() {
     override fun mongoClient(): MongoClient = MongoClient(HOST + ":" + PORT)
 
     override fun getDatabaseName() = DB_NAME
-}
+}*/

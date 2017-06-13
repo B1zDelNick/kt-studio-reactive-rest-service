@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 import java.io.IOException
 import java.io.Serializable
 
-
 @Component
 class JwtAuthenticationEntryPoint : AuthenticationEntryPoint, Serializable {
 

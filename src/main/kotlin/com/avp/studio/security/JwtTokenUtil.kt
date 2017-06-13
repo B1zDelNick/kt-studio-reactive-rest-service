@@ -20,7 +20,10 @@ class JwtTokenUtil : Serializable {
     @Value("\${jwt.expiration:604800}")
     private var expiration: Long = 604800
 
-    fun getUsernameFromToken(token: String): String? {
+    fun getUsernameFromToken(token: String?): String? {
+
+        if (token == null)
+            return null
 
         var username: String?
 
@@ -71,13 +74,16 @@ class JwtTokenUtil : Serializable {
     }
 
     private fun getClaimsFromToken(token: String): Claims? {
+
         var claims: Claims?
+
         try {
             claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .body
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             claims = null
         }
 
@@ -115,14 +121,17 @@ class JwtTokenUtil : Serializable {
     }
 
     fun generateToken(userDetails: UserDetails, device: Device): String {
+
         val claims = HashMap<String, Any>()
         claims.put(CLAIM_KEY_USERNAME, userDetails.username)
         claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device))
         claims.put(CLAIM_KEY_CREATED, Date())
+
         return generateToken(claims)
     }
 
     internal fun generateToken(claims: Map<String, Any>): String {
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate())

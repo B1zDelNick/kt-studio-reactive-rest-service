@@ -2,7 +2,7 @@ package com.avp.studio.config
 
 import com.avp.studio.security.JwtAuthenticationEntryPoint
 import com.avp.studio.security.JwtAuthenticationTokenFilter
-import com.avp.studio.security.JwtTokenUtil
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,10 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.web.reactive.function.server.RequestPredicates.headers
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.authorization.AuthenticatedAuthorizationManager.authenticated
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository
 import org.springframework.web.filter.CorsFilter
 import org.springframework.web.cors.CorsConfiguration
@@ -26,14 +24,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 
 @SuppressWarnings("SpringJavaAutowiringInspection")
-//@Configuration
-//@EnableWebSecurity
-//@EnableWebFluxSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-class WebSecurityConfig(
-        val userDetailsService: UserDetailsService,
-        val persistentTokenRepository: PersistentTokenRepository,
-        val unauthorizedHandler: JwtAuthenticationEntryPoint): WebSecurityConfigurerAdapter() { ////{ //val userDetailsService: UserDetailsService) {// : WebFluxSecurityConfiguration() { ///
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+class WebSecurityConfig: WebSecurityConfigurerAdapter() {
+
+    @Autowired
+    private lateinit var userDetailsService: UserDetailsService
+
+    @Autowired
+    private lateinit var persistentTokenRepository: PersistentTokenRepository
+
+    @Autowired
+    private lateinit var unauthorizedHandler: JwtAuthenticationEntryPoint
 
     @Value("\${jwt.rememberme.key:juliaBeautyStudioRemKey}")
     private lateinit var rememberMeKey: String
@@ -51,6 +54,7 @@ class WebSecurityConfig(
     fun corsFilter(): CorsFilter {
 
         val source = UrlBasedCorsConfigurationSource()
+
         val config = CorsConfiguration()
         config.allowCredentials = true
         config.addAllowedOrigin("*")
@@ -66,7 +70,9 @@ class WebSecurityConfig(
     }
 
     @Throws(Exception::class)
+    @Autowired
     fun configureAuthentication(authenticationManagerBuilder: AuthenticationManagerBuilder) {
+
         authenticationManagerBuilder
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder())
@@ -77,7 +83,7 @@ class WebSecurityConfig(
         httpSecurity
                 // we don't need CSRF because our token is invulnerable
                 .csrf().disable()
-
+                //.cors().configurationSource(corsFilter())
                 .exceptionHandling()
                     .authenticationEntryPoint(unauthorizedHandler)
                     .and()
@@ -88,6 +94,8 @@ class WebSecurityConfig(
                     .and()
 
                 .authorizeRequests()
+                    //.antMatchers(HttpMethod.OPTIONS, "/**")
+                    //    .permitAll()
                     // allow anonymous resource requests
                     .antMatchers(
                         HttpMethod.GET,
@@ -122,4 +130,6 @@ class WebSecurityConfig(
         // disable page caching
         httpSecurity.headers().cacheControl()
     }
+
+
 }
