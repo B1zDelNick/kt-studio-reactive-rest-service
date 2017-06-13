@@ -28,9 +28,7 @@ inline fun <T:AutoCloseable,R> tryWithResource(closeable: T, block: (T) -> R): R
 
 fun main(args: Array<String>) {
 
-    tryWithResource(SpringApplication.run(Application::class.java, *args)) {
+    //tryWithResource(SpringApplication.run(Application::class.java, *args))
 
-        //it.getBean(NettyContext::class.java).onClose().block()
-    }
-
+    SpringApplication.run(Application::class.java, *args)
 }
