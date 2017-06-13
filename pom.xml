@@ -199,7 +199,7 @@
 				</configuration>
 			</plugin>-->
 
-			<plugin>
+			<!--<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>${findbugs-maven-plugin.version}</version>
@@ -214,7 +214,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -276,7 +276,7 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<profiles>
+	<!--<profiles>
 		<profile>
 			<id>findbugs</id>
 			<activation>
@@ -322,6 +322,6 @@
 				</plugins>
 			</build>
 		</profile>
-	</profiles>
+	</profiles>-->
 
 </project>
